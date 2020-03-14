@@ -14,15 +14,16 @@ $ clasp push
 
 ## プロパティ
 
-| キー            | 意味                                                         |
-| --------------- | ------------------------------------------------------------ |
-| TWITTER_CK      | Twitter の CK                                                |
-| TWITTER_CS      | Twitter の CS                                                |
-| TWITTER_AT      | AT                                                           |
-| TWITTER_ATS     | ATS                                                          |
-| LASTFM_API_KEY  | Last.fm の API キー                                          |
-| LASTFM_USER     | Last.fm でのユーザー                                         |
-| SPOTIFY_API_KEY | Spotify の URL を設定したい場合は Spotify の API キー (任意) |
+| キー              | 意味                                                           |
+| ----------------- | -------------------------------------------------------------- |
+| TWITTER_CK        | Twitter の CK                                                  |
+| TWITTER_CS        | Twitter の CS                                                  |
+| TWITTER_AT        | AT                                                             |
+| TWITTER_ATS       | ATS                                                            |
+| LASTFM_API_KEY    | Last.fm の API キー                                            |
+| LASTFM_USER       | Last.fm でのユーザー                                           |
+| SPOTIFY_CLIENT_ID | Spotify の URL を設定したい場合は Spotify の　 ClientId (任意) |
+| SPOTIFY_CLIENT_ID | (略) Spotify の ClientSecret (任意)                            |
 
 ## License
 

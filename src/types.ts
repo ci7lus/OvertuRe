@@ -31,6 +31,12 @@ export type TopTracks = {
   }
 }
 
+export type SpotifyToken = {
+  access_token: string
+  token_type: "bearer"
+  expires_in: number
+}
+
 export type SpotifySearchResult = {
   tracks: {
     href: string
