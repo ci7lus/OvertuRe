@@ -41,6 +41,7 @@ function setProfile() {
           headers: {
             Authorization: `Bearer ${SPOTIFY_API_KEY}`,
           },
+          muteHttpExceptions: true,
         }
       )
       if (spotifyReq.getResponseCode() === 200) {
