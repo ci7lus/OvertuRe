@@ -54,7 +54,7 @@ function setProfile() {
         const req = UrlFetchApp.fetch(
           `https://api.spotify.com/v1/search?q=${encodeURIComponent(
             `${name} ${artist}`
-          )}&type=track&limit=1`,
+          )}&type=track&limit=1&market=JP`,
           {
             headers: {
               Authorization: `Bearer ${token.access_token}`,
@@ -73,7 +73,9 @@ function setProfile() {
               url = spotifyTrack.external_urls.spotify
             }
             if (0 < spotifyTrack.artists.length) {
-              artist = spotifyTrack.artists[0].name
+              artist = spotifyTrack.artists
+                .map(artist => artist.name)
+                .join(", ")
             }
           }
         }
