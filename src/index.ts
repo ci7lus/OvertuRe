@@ -6,10 +6,12 @@ const CK = properties.getProperty("TWITTER_CK")
 const CS = properties.getProperty("TWITTER_CS")
 const AT = properties.getProperty("TWITTER_AT")
 const ATS = properties.getProperty("TWITTER_ATS")
+const PERIOD = properties.getProperty("LASTFM_PERIOD")
 const API_KEY = properties.getProperty("LASTFM_API_KEY")
 const USER = properties.getProperty("LASTFM_USER")
 const SPOTIFY_CLIENT_ID = properties.getProperty("SPOTIFY_CLIENT_ID")
 const SPOTIFY_CLIENT_SECRET = properties.getProperty("SPOTIFY_CLIENT_SECRET")
+const SPOTIFY_MARKET = properties.getProperty("SPOTIFY_MARKET")
 
 function setProfile() {
   if (!CS || !CK || !AT || !ATS) {
@@ -20,11 +22,9 @@ function setProfile() {
   }
 
   const req = UrlFetchApp.fetch(
-    `https://ws.audioscrobbler.com/2.0/?method=user.gettoptracks&user=${USER}&api_key=${API_KEY}&format=json&period=7day`
+    `https://ws.audioscrobbler.com/2.0/?method=user.gettoptracks&user=${USER}&api_key=${API_KEY}&format=json&period=${PERIOD ||
+      "1month"}`
   )
-  if (req.getResponseCode() !== 200) {
-    throw new Error("last.fm API may be down.")
-  }
 
   const body: TopTracks = JSON.parse(req.getContentText())
 
@@ -54,7 +54,7 @@ function setProfile() {
         const req = UrlFetchApp.fetch(
           `https://api.spotify.com/v1/search?q=${encodeURIComponent(
             `${name} ${artist}`
-          )}&type=track&limit=1&market=JP`,
+          )}&type=track&limit=1&market=${SPOTIFY_MARKET || "JP"}`,
           {
             headers: {
               Authorization: `Bearer ${token.access_token}`,
