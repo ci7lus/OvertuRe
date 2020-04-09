@@ -81,7 +81,7 @@ function setProfile() {
         }
       }
     }
-    const text = `${artist}の${name} ${url} #NowPlaying`
+    const text = `#NowPlaying ${artist}の${name} ${url}`
     Logger.log(text)
 
     const twitter = OAuth.createService("Twitter")
