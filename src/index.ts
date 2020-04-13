@@ -1,4 +1,5 @@
 import { TopTracks, SpotifySearchResult, SpotifyToken } from "./types"
+import { FullUser } from "twitter-d"
 
 const properties = PropertiesService.getScriptProperties()
 
@@ -33,7 +34,10 @@ function setProfile() {
     const track = body.toptracks.track[0]
     let artist = track.artist.name
     let name = track.name
-    let url = track.url
+    let url =
+      0 < track.mbid.length
+        ? `https://musicbrainz.org/track/${track.mbid}`
+        : track.url
     if (SPOTIFY_CLIENT_ID && SPOTIFY_CLIENT_SECRET) {
       const tokenRequest = UrlFetchApp.fetch(
         "https://accounts.spotify.com/api/token",
@@ -82,8 +86,6 @@ function setProfile() {
         }
       }
     }
-    const text = `#NowPlaying ${artist}の${name} ${url}`
-    Logger.log(text)
 
     const twitter = OAuth.createService("Twitter")
       .setAccessTokenUrl("https://api.twitter.com/oauth/access_token")
@@ -92,6 +94,36 @@ function setProfile() {
       .setConsumerKey(CK)
       .setConsumerSecret(CS)
       .setAccessToken(AT, ATS)
+
+    if (url.includes("last.fm")) {
+      // last.fmのURLはアーティスト名とトラックがそのまま含まれる影響で長すぎて設定できない場合があるので、t.coを一度取得してやる
+      // 自分宛てDMを使った方が確実だけれど、使用するアプリケーションがDMの権限を持っているかわからないため
+      // 気が向いたらプロパティで切り替え可能にする
+      try {
+        const req = twitter.fetch(
+          "https://api.twitter.com/1.1/account/update_profile.json",
+          {
+            method: "post",
+            payload: {
+              description: url,
+            },
+          }
+        )
+        const user: FullUser = JSON.parse(req)
+        const link = user.entities.description.urls?.find((u) =>
+          u.expanded_url?.includes("last.fm")
+        )
+        if (link) {
+          url = link.url
+        } else {
+          throw new Error("設定したはずのリンクが見つかりませんでした")
+        }
+      } catch (e) {
+        Logger.log(`${url} の解決に失敗しました`, e)
+      }
+    }
+    const text = `#NowPlaying ${artist}の${name} ${url}`
+    Logger.log(text)
 
     twitter.fetch("https://api.twitter.com/1.1/account/update_profile.json", {
       method: "post",

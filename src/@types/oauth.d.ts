@@ -25,7 +25,7 @@ declare namespace GoogleAppsScript {
     }
     fetch: (
       url: string,
-      params: { method: "get" | "post"; payload: any }
+      params?: { method: "get" | "post"; payload: any }
     ) => any
   }
 }
