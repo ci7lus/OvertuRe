@@ -22,8 +22,9 @@ function setProfile() {
   }
 
   const req = UrlFetchApp.fetch(
-    `https://ws.audioscrobbler.com/2.0/?method=user.gettoptracks&user=${USER}&api_key=${API_KEY}&format=json&period=${PERIOD ||
-      "1month"}`
+    `https://ws.audioscrobbler.com/2.0/?method=user.gettoptracks&user=${USER}&api_key=${API_KEY}&format=json&period=${
+      PERIOD || "1month"
+    }`
   )
 
   const body: TopTracks = JSON.parse(req.getContentText())
@@ -74,7 +75,7 @@ function setProfile() {
             }
             if (0 < spotifyTrack.artists.length) {
               artist = spotifyTrack.artists
-                .map(artist => artist.name)
+                .map((artist) => artist.name)
                 .join(", ")
             }
           }
