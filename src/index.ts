@@ -81,9 +81,12 @@ function setProfile() {
             url = spotifyTrack.external_urls.spotify
           }
           if (0 < spotifyTrack.artists.length) {
-            artist = spotifyTrack.artists
-              .map((artist) => artist.name)
-              .join(", ")
+            const artists = spotifyTrack.artists.map((artist) => artist.name)
+            const withoutCV = artists.filter(
+              (artist) => !artist.includes("CV.")
+            )
+            artist =
+              withoutCV.length !== 0 ? withoutCV.join(", ") : artists.join(", ")
           }
         }
       }
